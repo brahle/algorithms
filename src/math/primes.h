@@ -46,23 +46,23 @@ public:
   }
 
   template <typename T2 = bool>
-  void generatePrimes(const T &limit) noexcept(false) {
+  void generatePrimes(const size_t &limit) noexcept(false) {
     static_assert(
       std::is_default_constructible<T2>::value,
       "PrimalityTesting::generatePrimes requires secondary type to be "
       "default-constructible"
     );
     primes_.clear();
-    primes_.reserve(limit / (log(limit) - 1));
+    primes_.reserve((size_t)((double)limit / (log(limit) - 1.0)));
 
-    std::vector< T2 > table(limit+1, 0);
+    std::vector< T2 > table((size_t)limit+1, 0);
 
-    for (T i = 2; i <= limit; ++i) {
-      if (table[i] != 0) {
+    for (size_t i = 2; i <= limit; ++i) {
+      if (table[i] != false) {
         continue;
       }
       primes_.emplace_back(i);
-      for (T j = i + i; j <= limit; j += i) {
+      for (size_t j = i + i; j <= limit; j += i) {
         table[j] = 1;
       }
     }
